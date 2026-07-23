@@ -11,11 +11,12 @@
 </head>
 <body>
 
-<!-- 赛博开场引导序列 -->
+<!-- 赛博开场引导序列 - 隧道穿越 + 全息投影 -->
 <div class="boot-loader" id="bootLoader" aria-hidden="true">
   <canvas class="boot-hyperspace" id="bootHyperspace"></canvas>
   <div class="boot-vignette"></div>
   <div class="boot-scan"></div>
+  <div class="boot-holo-glitch"></div>
 
   <div class="boot-corner tl">┌</div>
   <div class="boot-corner tr">┐</div>
@@ -30,22 +31,17 @@
   </div>
 
   <div class="boot-center">
-    <div class="boot-logo">
-      <span class="boot-bracket">[</span>
-      <span class="boot-brand">XWR</span>
-      <span class="boot-bracket">]</span>
-    </div>
-    <div class="boot-sub">HYPERSPACE JUMP IN PROGRESS</div>
-
-    <div class="boot-log" id="bootLog"></div>
-
-    <div class="boot-progress">
-      <div class="boot-progress-track">
-        <div class="boot-progress-fill" id="bootProgressFill"></div>
-      </div>
-      <div class="boot-progress-text">
-        <span id="bootProgressText">0</span>
-        <span>%</span>
+    <div class="boot-holo" id="bootHolo">
+      <div class="holo-scanlines"></div>
+      <div class="holo-flicker"></div>
+      <div class="holo-content">
+        <div class="boot-logo holo-text">
+          <span class="boot-bracket">[</span>
+          <span class="boot-brand" data-text="XWR">XWR</span>
+          <span class="boot-bracket">]</span>
+        </div>
+        <div class="boot-sub holo-text" data-text="HYPERSPACE JUMP IN PROGRESS">HYPERSPACE JUMP IN PROGRESS</div>
+        <div class="boot-tagline holo-text" id="bootTagline"></div>
       </div>
     </div>
 

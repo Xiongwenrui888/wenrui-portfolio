@@ -273,13 +273,15 @@ body {
   z-index: 1;
   pointer-events: none;
   background:
-    radial-gradient(circle at 50% 50%, transparent 20%, rgba(0, 0, 0, 0.55) 78%, rgba(0, 0, 0, 0.95) 100%),
-    radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.1), transparent 40%);
+    radial-gradient(circle at 50% 50%, transparent 22%, rgba(0, 0, 0, 0.55) 78%, rgba(0, 0, 0, 0.95) 100%),
+    radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.1), transparent 42%);
 }
 
 .boot-scan {
   position: absolute;
   inset: 0;
+  pointer-events: none;
+  z-index: 2;
   background: repeating-linear-gradient(
     0deg,
     transparent 0,
@@ -287,7 +289,6 @@ body {
     rgba(0, 240, 255, 0.05) 3px,
     rgba(0, 240, 255, 0.05) 4px
   );
-  pointer-events: none;
 }
 
 .boot-scan::after {
@@ -299,22 +300,276 @@ body {
   background: linear-gradient(
     180deg,
     transparent 0%,
-    rgba(0, 240, 255, 0.15) 50%,
+    rgba(0, 240, 255, 0.18) 50%,
     transparent 100%
   );
-  animation: boot-scan-run 3.6s linear infinite;
+  animation: boot-scan-run 3.2s linear infinite;
   mix-blend-mode: screen;
 }
 
 @keyframes boot-scan-run {
+  0% { top: -30vh; }
+  100% { top: 130vh; }
+}
+
+.boot-holo-glitch {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background:
+    linear-gradient(90deg, transparent 0%, rgba(0, 240, 255, 0.04) 50%, transparent 100%);
+  mix-blend-mode: screen;
+  animation: boot-holo-shift 6s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes boot-holo-shift {
+  0%, 100% { transform: translateX(-100%); opacity: 0; }
+  20% { opacity: 0.5; }
+  50% { transform: translateX(0%); opacity: 0.4; }
+  80% { opacity: 0.5; }
+}
+
+/* ============ 全息容器 ============ */
+.boot-center {
+  position: relative;
+  z-index: 5;
+  width: min(94vw, 640px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 32px;
+  text-align: center;
+}
+
+.boot-holo {
+  position: relative;
+  width: 100%;
+  padding: 40px 24px;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.holo-scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0,
+    transparent 2px,
+    rgba(0, 240, 255, 0.08) 2px,
+    rgba(0, 240, 255, 0.08) 3px
+  );
+  mix-blend-mode: screen;
+  animation: holo-scan-drift 1.6s linear infinite;
+  opacity: 0.7;
+}
+
+@keyframes holo-scan-drift {
+  from { background-position-y: 0; }
+  to { background-position-y: -20px; }
+}
+
+.holo-flicker {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(0, 240, 255, 0.14) 0%,
+    transparent 60%
+  );
+  animation: holo-flick 3s ease-in-out infinite;
+}
+
+@keyframes holo-flick {
+  0%, 100% { opacity: 0.8; }
+  47% { opacity: 0.4; }
+  48% { opacity: 1; }
+  49% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.holo-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+/* ============ 全息文字通用 ============ */
+.holo-text {
+  color: rgba(0, 240, 255, 0.92);
+  text-shadow:
+    0 0 6px rgba(0, 240, 255, 0.8),
+    0 0 14px rgba(0, 240, 255, 0.55),
+    0 0 26px rgba(0, 240, 255, 0.3);
+  animation: holo-text-flicker 4.5s steps(1, end) infinite;
+}
+
+@keyframes holo-text-flicker {
+  0%, 88%, 92%, 96%, 100% { opacity: 1; }
+  89% { opacity: 0.3; }
+  93% { opacity: 0.55; }
+  95% { opacity: 0.2; }
+}
+
+/* 全息文字入场：从透明→逐层扫描出现 */
+.holo-reveal {
+  opacity: 0;
+  animation: holo-reveal 0.9s cubic-bezier(.2, .8, .2, 1) forwards;
+  position: relative;
+}
+
+.holo-reveal::before,
+.holo-reveal::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.holo-reveal::before {
+  color: rgba(0, 240, 255, 0.5);
+  transform: translateX(2px);
+  mix-blend-mode: screen;
+  animation: holo-glitch-1 3s infinite steps(2, end);
+}
+
+.holo-reveal::after {
+  color: rgba(255, 100, 200, 0.35);
+  transform: translateX(-2px);
+  mix-blend-mode: screen;
+  animation: holo-glitch-2 3.8s infinite steps(2, end);
+}
+
+@keyframes holo-reveal {
   0% {
-    top: -30vh;
+    opacity: 0;
+    transform: translateY(6px) scale(0.94);
+    filter: blur(6px);
+  }
+  40% {
+    opacity: 0.6;
+    filter: blur(2px);
   }
   100% {
-    top: 130vh;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
   }
 }
 
+@keyframes holo-glitch-1 {
+  0%, 97%, 100% { opacity: 0; transform: translateX(0); }
+  98% { opacity: 0.6; transform: translateX(3px); }
+  99% { opacity: 0.4; transform: translateX(-2px); }
+}
+
+@keyframes holo-glitch-2 {
+  0%, 96%, 100% { opacity: 0; transform: translateX(0); }
+  97% { opacity: 0.5; transform: translateX(-3px); }
+  98% { opacity: 0.3; transform: translateX(2px); }
+}
+
+.boot-logo {
+  font-family: var(--font-sans);
+  font-size: clamp(60px, 10vw, 108px);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  line-height: 1;
+}
+
+.boot-bracket {
+  color: rgba(0, 240, 255, 0.4);
+  margin: 0 8px;
+}
+
+.boot-brand {
+  display: inline-block;
+  position: relative;
+}
+
+.boot-sub {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.55em;
+  padding: 6px 16px;
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  background: rgba(0, 240, 255, 0.05);
+  position: relative;
+}
+
+.boot-tagline {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  min-height: 18px;
+  color: rgba(0, 240, 255, 0.75);
+  text-shadow:
+    0 0 4px rgba(0, 240, 255, 0.6),
+    0 0 10px rgba(0, 240, 255, 0.35);
+}
+
+/* ============ Enter 按钮 ============ */
+.boot-enter {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.boot-enter.show {
+  display: flex;
+  animation: holo-reveal 0.6s ease both;
+}
+
+.boot-enter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 40px;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.4em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.6);
+  animation: boot-enter-pulse 1.6s ease-in-out infinite;
+}
+
+.boot-enter-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 50px rgba(0, 240, 255, 0.95);
+}
+
+.boot-enter-arrow {
+  color: var(--bg);
+  font-size: 16px;
+}
+
+.boot-enter-hint {
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  color: var(--fg-dim);
+  opacity: 0.75;
+}
+
+@keyframes boot-enter-pulse {
+  0%, 100% { box-shadow: 0 0 24px rgba(0, 240, 255, 0.4); }
+  50% { box-shadow: 0 0 60px rgba(0, 240, 255, 0.95); }
+}
+
+/* ============ 边角/侧栏/底部 ============ */
 .boot-corner {
   position: absolute;
   font-size: 28px;
@@ -342,205 +597,11 @@ body {
   padding: 20px 12px;
   border-left: 1px solid rgba(0, 240, 255, 0.25);
   border-right: 1px solid rgba(0, 240, 255, 0.25);
+  z-index: 4;
 }
 
 .boot-side.left { left: 40px; }
 .boot-side.right { right: 40px; }
-
-.boot-center {
-  position: relative;
-  z-index: 2;
-  width: min(92vw, 560px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 22px;
-  padding: 32px;
-  text-align: center;
-}
-
-.boot-logo {
-  font-family: var(--font-sans);
-  font-size: clamp(48px, 8vw, 88px);
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  color: var(--accent);
-  text-shadow: 0 0 24px rgba(0, 240, 255, 0.5),
-    0 0 48px rgba(0, 240, 255, 0.25);
-  animation: boot-logo-glow 2s ease-in-out infinite alternate;
-}
-
-.boot-bracket {
-  color: rgba(0, 240, 255, 0.4);
-  margin: 0 8px;
-}
-
-.boot-brand {
-  display: inline-block;
-  animation: boot-brand-flicker 5s steps(1, end) infinite;
-}
-
-@keyframes boot-logo-glow {
-  from {
-    text-shadow: 0 0 20px rgba(0, 240, 255, 0.4),
-      0 0 40px rgba(0, 240, 255, 0.2);
-  }
-  to {
-    text-shadow: 0 0 30px rgba(0, 240, 255, 0.7),
-      0 0 60px rgba(0, 240, 255, 0.35);
-  }
-}
-
-@keyframes boot-brand-flicker {
-  0%, 92%, 96%, 100% { opacity: 1; }
-  93% { opacity: 0.3; }
-  94% { opacity: 1; }
-  95% { opacity: 0.5; }
-}
-
-.boot-sub {
-  font-size: 11px;
-  letter-spacing: 0.5em;
-  color: var(--fg-dim);
-  padding: 6px 14px;
-  border: 1px solid rgba(0, 240, 255, 0.35);
-  background: rgba(0, 240, 255, 0.05);
-  animation: boot-fade-in 0.5s ease 0.2s both;
-}
-
-.boot-log {
-  width: 100%;
-  min-height: 128px;
-  font-size: 11px;
-  line-height: 1.9;
-  letter-spacing: 0.05em;
-  color: var(--fg);
-  text-align: left;
-  padding: 16px 20px;
-  border: 1px solid rgba(0, 240, 255, 0.2);
-  background: rgba(0, 0, 0, 0.5);
-  overflow: hidden;
-}
-
-.boot-log .line {
-  opacity: 0;
-  animation: boot-line-in 0.28s ease forwards;
-  white-space: pre;
-}
-
-.boot-log .line .prefix {
-  color: var(--accent);
-  margin-right: 8px;
-}
-
-.boot-log .line .ok {
-  color: #7cff8a;
-  margin-left: 8px;
-}
-
-.boot-log .line .fail {
-  color: #ff5a76;
-  margin-left: 8px;
-}
-
-@keyframes boot-line-in {
-  from { opacity: 0; transform: translateX(-6px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-.boot-progress {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.boot-progress-track {
-  flex: 1;
-  height: 6px;
-  background: rgba(0, 240, 255, 0.08);
-  border: 1px solid rgba(0, 240, 255, 0.3);
-  overflow: hidden;
-  position: relative;
-}
-
-.boot-progress-fill {
-  height: 100%;
-  width: 0;
-  background: linear-gradient(90deg, rgba(0, 240, 255, 0.5), var(--accent));
-  box-shadow: 0 0 12px rgba(0, 240, 255, 0.7);
-  transition: width 0.18s ease;
-}
-
-.boot-progress-text {
-  min-width: 56px;
-  text-align: right;
-  font-size: 14px;
-  color: var(--accent);
-  letter-spacing: 0.08em;
-  font-weight: 700;
-}
-
-.boot-enter {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  animation: boot-fade-in 0.6s ease both;
-}
-
-.boot-enter.show {
-  display: flex;
-}
-
-.boot-enter-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  padding: 16px 40px;
-  background: var(--accent);
-  color: var(--bg);
-  border: none;
-  font-family: var(--font-mono);
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.4em;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
-  animation: boot-enter-pulse 1.6s ease-in-out infinite;
-}
-
-.boot-enter-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 40px rgba(0, 240, 255, 0.8);
-}
-
-.boot-enter-arrow {
-  color: var(--bg);
-  font-size: 16px;
-}
-
-.boot-enter-hint {
-  font-size: 9px;
-  letter-spacing: 0.35em;
-  color: var(--fg-dim);
-  opacity: 0.75;
-}
-
-@keyframes boot-enter-pulse {
-  0%, 100% {
-    box-shadow: 0 0 24px rgba(0, 240, 255, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 48px rgba(0, 240, 255, 0.8);
-  }
-}
-
-@keyframes boot-fade-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 
 .boot-footer {
   position: absolute;
@@ -553,6 +614,7 @@ body {
   font-size: 10px;
   letter-spacing: 0.25em;
   color: var(--fg-mute);
+  z-index: 4;
 }
 
 /* 主页初始隐藏，boot 完成后 body.booted 恢复 */
@@ -574,7 +636,7 @@ body.booted .boot-loader {
 }
 
 body.booted #hero .hero-content > * {
-  animation: boot-fade-in 0.7s ease both;
+  animation: holo-reveal 0.7s cubic-bezier(.2, .8, .2, 1) both;
 }
 
 body.booted #hero .hero-content > *:nth-child(1) { animation-delay: 0.05s; }
@@ -583,38 +645,22 @@ body.booted #hero .hero-content > *:nth-child(3) { animation-delay: 0.35s; }
 body.booted #hero .hero-content > *:nth-child(4) { animation-delay: 0.5s; }
 body.booted #hero .hero-content > *:nth-child(5) { animation-delay: 0.65s; }
 
-/* 进入主页时的 warp-in 短闪光 */
 .boot-loader.warping {
   animation: boot-warp-flash 0.7s ease forwards;
 }
 
 @keyframes boot-warp-flash {
-  0% {
-    filter: brightness(1);
-    transform: scale(1);
-  }
-  40% {
-    filter: brightness(3) blur(4px);
-    transform: scale(1.35);
-    opacity: 1;
-  }
-  100% {
-    filter: brightness(1);
-    transform: scale(2.2);
-    opacity: 0;
-  }
+  0% { filter: brightness(1); transform: scale(1); }
+  40% { filter: brightness(3) blur(4px); transform: scale(1.35); opacity: 1; }
+  100% { filter: brightness(1); transform: scale(2.2); opacity: 0; }
 }
 
 @media (max-width: 768px) {
   .boot-side { display: none; }
   .boot-corner { display: none; }
-  .boot-footer {
-    gap: 16px;
-    font-size: 8px;
-    bottom: 20px;
-  }
-  .boot-log { font-size: 10px; }
+  .boot-footer { gap: 16px; font-size: 8px; bottom: 20px; }
 }
+
 
 /* 全局背景效果 */
 .scanlines {
