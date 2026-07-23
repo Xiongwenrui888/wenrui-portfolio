@@ -11,6 +11,60 @@
 </head>
 <body>
 
+<!-- 赛博开场引导序列 -->
+<div class="boot-loader" id="bootLoader" aria-hidden="true">
+  <div class="boot-grid"></div>
+  <div class="boot-noise"></div>
+  <div class="boot-scan"></div>
+
+  <div class="boot-corner tl">┌</div>
+  <div class="boot-corner tr">┐</div>
+  <div class="boot-corner bl">└</div>
+  <div class="boot-corner br">┘</div>
+
+  <div class="boot-side left">
+    <div>SYS.CORE</div><div>v3.0</div><div>WUH·CN</div><div>UPLINK</div>
+  </div>
+  <div class="boot-side right">
+    <div id="bootTime">00:00:00</div><div>STATUS</div><div>ONLINE</div><div>SECURE</div>
+  </div>
+
+  <div class="boot-center">
+    <div class="boot-logo">
+      <span class="boot-bracket">[</span>
+      <span class="boot-brand">XWR</span>
+      <span class="boot-bracket">]</span>
+    </div>
+    <div class="boot-sub">PORTFOLIO INITIALIZING</div>
+
+    <div class="boot-log" id="bootLog"></div>
+
+    <div class="boot-progress">
+      <div class="boot-progress-track">
+        <div class="boot-progress-fill" id="bootProgressFill"></div>
+      </div>
+      <div class="boot-progress-text">
+        <span id="bootProgressText">0</span>
+        <span>%</span>
+      </div>
+    </div>
+
+    <div class="boot-enter" id="bootEnter">
+      <button type="button" class="boot-enter-btn" id="bootEnterBtn">
+        <span class="boot-enter-arrow">▸</span>
+        <span>ENTER SYSTEM</span>
+      </button>
+      <div class="boot-enter-hint">CLICK OR PRESS ANY KEY</div>
+    </div>
+  </div>
+
+  <div class="boot-footer">
+    <span>© 2026 XIONG WENRUI</span>
+    <span>AIGC · MOTION · 3D</span>
+    <span>xiongwenrui.cn</span>
+  </div>
+</div>
+
 <!-- 音乐播放器 -->
 <audio id="bgm" src="assets/bgm.mp3" loop preload="none"></audio>
 <button class="audio-toggle" id="audioToggle" type="button" aria-label="切换背景音乐" title="点击开启/关闭背景音乐">

@@ -2,6 +2,130 @@
 // XIONG WENRUI PORTFOLIO - Interactions
 // ============================================
 
+// 0. 赛博开场引导序列
+(function bootSequence() {
+  const loader = document.getElementById("bootLoader");
+  if (!loader) return;
+
+  const logEl = document.getElementById("bootLog");
+  const fillEl = document.getElementById("bootProgressFill");
+  const textEl = document.getElementById("bootProgressText");
+  const enterEl = document.getElementById("bootEnter");
+  const enterBtn = document.getElementById("bootEnterBtn");
+  const timeEl = document.getElementById("bootTime");
+
+  const steps = [
+    { t: "$ boot --portfolio xwr", d: 250, ok: null },
+    { t: "▸ mount /system/core", d: 350, ok: "OK" },
+    { t: "▸ link //xiongwenrui.cn ← wenrui-portfolio.git", d: 420, ok: "SYNC" },
+    { t: "▸ load hero.stream (h264, loop)", d: 320, ok: "OK" },
+    { t: "▸ decrypt profile.identity", d: 380, ok: "AUTH" },
+    { t: "▸ init motion.grid × cyber.mesh", d: 300, ok: "OK" },
+    { t: "▸ handshake · designer//xwr → visitor", d: 400, ok: "READY" },
+    { t: "$ system.uplink complete", d: 260, ok: null },
+  ];
+
+  const startTime = Date.now();
+  function tick() {
+    const d = new Date();
+    if (timeEl) {
+      const h = String(d.getHours()).padStart(2, "0");
+      const m = String(d.getMinutes()).padStart(2, "0");
+      const s = String(d.getSeconds()).padStart(2, "0");
+      timeEl.textContent = `${h}:${m}:${s}`;
+    }
+  }
+  tick();
+  const tickTimer = setInterval(tick, 500);
+
+  let progress = 0;
+  const total = steps.reduce((a, b) => a + b.d, 0);
+  let acc = 0;
+
+  function runStep(i) {
+    if (i >= steps.length) {
+      finish();
+      return;
+    }
+    const step = steps[i];
+    const line = document.createElement("div");
+    line.className = "line";
+    const okHtml = step.ok
+      ? ` <span class="ok">[${step.ok}]</span>`
+      : "";
+    line.innerHTML = `<span class="prefix">›</span>${escapeHtml(step.t)}${okHtml}`;
+    logEl.appendChild(line);
+    // 保持日志高度：只保留最近 6 行
+    while (logEl.children.length > 6) logEl.removeChild(logEl.firstChild);
+
+    // 平滑推进进度条
+    const target = Math.floor(((acc + step.d) / total) * 100);
+    const start = progress;
+    const startTs = performance.now();
+    function frame(now) {
+      const p = Math.min(1, (now - startTs) / step.d);
+      progress = Math.round(start + (target - start) * p);
+      if (fillEl) fillEl.style.width = progress + "%";
+      if (textEl) textEl.textContent = progress;
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+
+    acc += step.d;
+    setTimeout(() => runStep(i + 1), step.d);
+  }
+
+  function escapeHtml(str) {
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  function finish() {
+    progress = 100;
+    if (fillEl) fillEl.style.width = "100%";
+    if (textEl) textEl.textContent = 100;
+    if (enterEl) enterEl.classList.add("show");
+
+    const enter = () => {
+      document.body.classList.add("booted");
+      setTimeout(() => loader.classList.add("hide"), 100);
+      setTimeout(() => {
+        loader.remove();
+        clearInterval(tickTimer);
+      }, 1000);
+      // 首次进入时把开关做个引导：暂不自动播放音乐，由用户点右下角
+    };
+
+    if (enterBtn) enterBtn.addEventListener("click", enter, { once: true });
+    const anyKey = (ev) => {
+      enter();
+      document.removeEventListener("keydown", anyKey);
+      document.removeEventListener("click", clickAnywhere);
+    };
+    const clickAnywhere = (ev) => {
+      if (ev.target.closest(".boot-loader")) return; // 让按钮自然走
+      enter();
+      document.removeEventListener("keydown", anyKey);
+      document.removeEventListener("click", clickAnywhere);
+    };
+    document.addEventListener("keydown", anyKey);
+    document.addEventListener("click", clickAnywhere);
+  }
+
+  // 允许用户按 Esc 快速跳过
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !document.body.classList.contains("booted")) {
+      progress = 100;
+      finish();
+    }
+  });
+
+  // kick off
+  runStep(0);
+})();
+
 // 1. 打字机效果
 const typewriterEl = document.getElementById("typewriter");
 const phrases = [

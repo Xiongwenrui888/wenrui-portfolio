@@ -236,7 +236,377 @@ body {
   }
 }
 
-/* ============= 全局背景效果 ============= */
+/* ============= BOOT LOADER 赛博开场 ============= */
+.boot-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: radial-gradient(circle at 50% 45%, #061114 0%, #030608 55%, #000 100%);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 0.9s ease, visibility 0.9s ease;
+}
+
+.boot-loader.hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.boot-grid {
+  position: absolute;
+  inset: -20% -20% -20% -20%;
+  background-image:
+    linear-gradient(rgba(0, 240, 255, 0.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.14) 1px, transparent 1px);
+  background-size: 44px 44px;
+  transform-origin: center;
+  transform: perspective(600px) rotateX(62deg) translateY(6%);
+  mask-image: radial-gradient(ellipse at 50% 40%, black 30%, transparent 70%);
+  animation: boot-grid-drift 6s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes boot-grid-drift {
+  from {
+    background-position: 0 0, 0 0;
+  }
+  to {
+    background-position: 0 44px, 44px 0;
+  }
+}
+
+.boot-noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.06;
+  mix-blend-mode: screen;
+}
+
+.boot-scan {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0,
+    transparent 3px,
+    rgba(0, 240, 255, 0.05) 3px,
+    rgba(0, 240, 255, 0.05) 4px
+  );
+  pointer-events: none;
+}
+
+.boot-scan::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 22vh;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 240, 255, 0.15) 50%,
+    transparent 100%
+  );
+  animation: boot-scan-run 3.6s linear infinite;
+  mix-blend-mode: screen;
+}
+
+@keyframes boot-scan-run {
+  0% {
+    top: -30vh;
+  }
+  100% {
+    top: 130vh;
+  }
+}
+
+.boot-corner {
+  position: absolute;
+  font-size: 28px;
+  color: var(--accent);
+  opacity: 0.7;
+}
+
+.boot-corner.tl { top: 24px; left: 24px; }
+.boot-corner.tr { top: 24px; right: 24px; }
+.boot-corner.bl { bottom: 24px; left: 24px; }
+.boot-corner.br { bottom: 24px; right: 24px; }
+
+.boot-side {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--fg-dim);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  padding: 20px 12px;
+  border-left: 1px solid rgba(0, 240, 255, 0.25);
+  border-right: 1px solid rgba(0, 240, 255, 0.25);
+}
+
+.boot-side.left { left: 40px; }
+.boot-side.right { right: 40px; }
+
+.boot-center {
+  position: relative;
+  z-index: 2;
+  width: min(92vw, 560px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  padding: 32px;
+  text-align: center;
+}
+
+.boot-logo {
+  font-family: var(--font-sans);
+  font-size: clamp(48px, 8vw, 88px);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  text-shadow: 0 0 24px rgba(0, 240, 255, 0.5),
+    0 0 48px rgba(0, 240, 255, 0.25);
+  animation: boot-logo-glow 2s ease-in-out infinite alternate;
+}
+
+.boot-bracket {
+  color: rgba(0, 240, 255, 0.4);
+  margin: 0 8px;
+}
+
+.boot-brand {
+  display: inline-block;
+  animation: boot-brand-flicker 5s steps(1, end) infinite;
+}
+
+@keyframes boot-logo-glow {
+  from {
+    text-shadow: 0 0 20px rgba(0, 240, 255, 0.4),
+      0 0 40px rgba(0, 240, 255, 0.2);
+  }
+  to {
+    text-shadow: 0 0 30px rgba(0, 240, 255, 0.7),
+      0 0 60px rgba(0, 240, 255, 0.35);
+  }
+}
+
+@keyframes boot-brand-flicker {
+  0%, 92%, 96%, 100% { opacity: 1; }
+  93% { opacity: 0.3; }
+  94% { opacity: 1; }
+  95% { opacity: 0.5; }
+}
+
+.boot-sub {
+  font-size: 11px;
+  letter-spacing: 0.5em;
+  color: var(--fg-dim);
+  padding: 6px 14px;
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  background: rgba(0, 240, 255, 0.05);
+  animation: boot-fade-in 0.5s ease 0.2s both;
+}
+
+.boot-log {
+  width: 100%;
+  min-height: 128px;
+  font-size: 11px;
+  line-height: 1.9;
+  letter-spacing: 0.05em;
+  color: var(--fg);
+  text-align: left;
+  padding: 16px 20px;
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  background: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.boot-log .line {
+  opacity: 0;
+  animation: boot-line-in 0.28s ease forwards;
+  white-space: pre;
+}
+
+.boot-log .line .prefix {
+  color: var(--accent);
+  margin-right: 8px;
+}
+
+.boot-log .line .ok {
+  color: #7cff8a;
+  margin-left: 8px;
+}
+
+.boot-log .line .fail {
+  color: #ff5a76;
+  margin-left: 8px;
+}
+
+@keyframes boot-line-in {
+  from { opacity: 0; transform: translateX(-6px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.boot-progress {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.boot-progress-track {
+  flex: 1;
+  height: 6px;
+  background: rgba(0, 240, 255, 0.08);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  overflow: hidden;
+  position: relative;
+}
+
+.boot-progress-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, rgba(0, 240, 255, 0.5), var(--accent));
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.7);
+  transition: width 0.18s ease;
+}
+
+.boot-progress-text {
+  min-width: 56px;
+  text-align: right;
+  font-size: 14px;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.boot-enter {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: boot-fade-in 0.6s ease both;
+}
+
+.boot-enter.show {
+  display: flex;
+}
+
+.boot-enter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 40px;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.4em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
+  animation: boot-enter-pulse 1.6s ease-in-out infinite;
+}
+
+.boot-enter-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 40px rgba(0, 240, 255, 0.8);
+}
+
+.boot-enter-arrow {
+  color: var(--bg);
+  font-size: 16px;
+}
+
+.boot-enter-hint {
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  color: var(--fg-dim);
+  opacity: 0.75;
+}
+
+@keyframes boot-enter-pulse {
+  0%, 100% {
+    box-shadow: 0 0 24px rgba(0, 240, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 48px rgba(0, 240, 255, 0.8);
+  }
+}
+
+@keyframes boot-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.boot-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 32px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--fg-mute);
+}
+
+/* 主页初始隐藏，boot 完成后 body.booted 恢复 */
+body:not(.booted) .audio-toggle,
+body:not(.booted) .nav,
+body:not(.booted) .side-info,
+body:not(.booted) .scanlines,
+body:not(.booted) .noise,
+body:not(.booted) .grid-bg,
+body:not(.booted) section,
+body:not(.booted) .footer {
+  visibility: hidden;
+}
+
+body.booted .boot-loader {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+body.booted #hero .hero-content > * {
+  animation: boot-fade-in 0.7s ease both;
+}
+
+body.booted #hero .hero-content > *:nth-child(1) { animation-delay: 0.05s; }
+body.booted #hero .hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+body.booted #hero .hero-content > *:nth-child(3) { animation-delay: 0.35s; }
+body.booted #hero .hero-content > *:nth-child(4) { animation-delay: 0.5s; }
+body.booted #hero .hero-content > *:nth-child(5) { animation-delay: 0.65s; }
+
+@media (max-width: 768px) {
+  .boot-side { display: none; }
+  .boot-corner { display: none; }
+  .boot-footer {
+    gap: 16px;
+    font-size: 8px;
+    bottom: 20px;
+  }
+  .boot-log { font-size: 10px; }
+}
+
+/* 全局背景效果 */
 .scanlines {
   position: fixed;
   inset: 0;
