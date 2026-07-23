@@ -2,7 +2,7 @@
 // XIONG WENRUI PORTFOLIO - Interactions
 // ============================================
 
-// 0. 赛博开场引导序列
+// 0. 赛博开场引导序列（含 hyperspace 星门穿梭）
 (function bootSequence() {
   const loader = document.getElementById("bootLoader");
   if (!loader) return;
@@ -13,19 +13,133 @@
   const enterEl = document.getElementById("bootEnter");
   const enterBtn = document.getElementById("bootEnterBtn");
   const timeEl = document.getElementById("bootTime");
+  const canvas = document.getElementById("bootHyperspace");
 
+  // ---------- Hyperspace 粒子 ----------
+  let hyperRAF = null;
+  let hyperState = {
+    speed: 1.6, // 基础速度
+    targetSpeed: 1.6,
+    stars: [],
+    w: 0,
+    h: 0,
+    dpr: Math.min(window.devicePixelRatio || 1, 2),
+  };
+
+  function setupHyperspace() {
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    resize();
+    window.addEventListener("resize", resize);
+
+    function resize() {
+      const dpr = hyperState.dpr;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = w + "px";
+      canvas.style.height = h + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      hyperState.w = w;
+      hyperState.h = h;
+    }
+
+    // 生成星星（3D 空间坐标）
+    const count = Math.min(680, Math.max(280, Math.floor(window.innerWidth * 0.35)));
+    for (let i = 0; i < count; i++) {
+      hyperState.stars.push(spawnStar());
+    }
+
+    function spawnStar() {
+      return {
+        x: (Math.random() - 0.5) * 2000,
+        y: (Math.random() - 0.5) * 2000,
+        z: Math.random() * 1000 + 20,
+        pz: 0,
+        // 色相偏电光青，偶尔紫粉点缀
+        hue: Math.random() < 0.12 ? 300 + Math.random() * 40 : 180 + Math.random() * 20,
+      };
+    }
+
+    function tickHyper() {
+      const { w, h } = hyperState;
+      const cx = w / 2;
+      const cy = h / 2;
+
+      // 缓动实际速度
+      hyperState.speed += (hyperState.targetSpeed - hyperState.speed) * 0.08;
+
+      // 拖影：半透明黑色覆盖，制造尾迹
+      ctx.fillStyle = "rgba(3, 6, 8, 0.28)";
+      ctx.fillRect(0, 0, w, h);
+
+      const focal = 260;
+
+      for (let i = 0; i < hyperState.stars.length; i++) {
+        const s = hyperState.stars[i];
+        s.pz = s.z;
+        s.z -= hyperState.speed * 8;
+        if (s.z < 1) {
+          Object.assign(s, spawnStar());
+          s.z = 1000;
+          s.pz = 1000;
+          continue;
+        }
+
+        const sx = (s.x / s.z) * focal + cx;
+        const sy = (s.y / s.z) * focal + cy;
+        const px = (s.x / s.pz) * focal + cx;
+        const py = (s.y / s.pz) * focal + cy;
+
+        if (sx < -20 || sx > w + 20 || sy < -20 || sy > h + 20) continue;
+
+        const size = Math.max(0.4, (1 - s.z / 1000) * 2.4);
+        const alpha = Math.min(1, (1 - s.z / 1000) * 1.4);
+
+        // 拖影线（速度感）
+        ctx.strokeStyle = `hsla(${s.hue}, 100%, 65%, ${alpha * 0.85})`;
+        ctx.lineWidth = size;
+        ctx.beginPath();
+        ctx.moveTo(px, py);
+        ctx.lineTo(sx, sy);
+        ctx.stroke();
+
+        // 星点
+        ctx.fillStyle = `hsla(${s.hue}, 100%, 85%, ${alpha})`;
+        ctx.beginPath();
+        ctx.arc(sx, sy, size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // 中心 warp 环
+      const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.min(w, h) * 0.5);
+      glow.addColorStop(0, "rgba(0, 240, 255, 0.06)");
+      glow.addColorStop(0.4, "rgba(0, 240, 255, 0.02)");
+      glow.addColorStop(1, "rgba(0, 0, 0, 0)");
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, w, h);
+
+      hyperRAF = requestAnimationFrame(tickHyper);
+    }
+
+    tickHyper();
+  }
+
+  setupHyperspace();
+
+  // ---------- 启动日志 & 进度 ----------
   const steps = [
-    { t: "$ boot --portfolio xwr", d: 250, ok: null },
-    { t: "▸ mount /system/core", d: 350, ok: "OK" },
-    { t: "▸ link //xiongwenrui.cn ← wenrui-portfolio.git", d: 420, ok: "SYNC" },
-    { t: "▸ load hero.stream (h264, loop)", d: 320, ok: "OK" },
-    { t: "▸ decrypt profile.identity", d: 380, ok: "AUTH" },
-    { t: "▸ init motion.grid × cyber.mesh", d: 300, ok: "OK" },
-    { t: "▸ handshake · designer//xwr → visitor", d: 400, ok: "READY" },
-    { t: "$ system.uplink complete", d: 260, ok: null },
+    { t: "$ boot --portfolio xwr", d: 220, ok: null },
+    { t: "▸ init hyperspace.engine", d: 300, ok: "OK" },
+    { t: "▸ align coordinates → xiongwenrui.cn", d: 360, ok: "LOCK" },
+    { t: "▸ mount /system/core × visual.module", d: 320, ok: "OK" },
+    { t: "▸ decrypt profile.identity (xwr)", d: 360, ok: "AUTH" },
+    { t: "▸ load hero.stream × bgm.channel", d: 300, ok: "OK" },
+    { t: "▸ warp handshake // designer → visitor", d: 380, ok: "READY" },
+    { t: "$ jump.sequence engaged", d: 260, ok: null },
   ];
 
-  const startTime = Date.now();
   function tick() {
     const d = new Date();
     if (timeEl) {
@@ -55,10 +169,11 @@
       : "";
     line.innerHTML = `<span class="prefix">›</span>${escapeHtml(step.t)}${okHtml}`;
     logEl.appendChild(line);
-    // 保持日志高度：只保留最近 6 行
     while (logEl.children.length > 6) logEl.removeChild(logEl.firstChild);
 
-    // 平滑推进进度条
+    // 每一步略微提升飞行速度
+    hyperState.targetSpeed = 1.6 + i * 0.35;
+
     const target = Math.floor(((acc + step.d) / total) * 100);
     const start = progress;
     const startTs = performance.now();
@@ -87,15 +202,20 @@
     if (fillEl) fillEl.style.width = "100%";
     if (textEl) textEl.textContent = 100;
     if (enterEl) enterEl.classList.add("show");
+    // 待机时保持较快穿梭
+    hyperState.targetSpeed = 3.0;
 
     const enter = () => {
+      // WARP JUMP：极速加速 + 亮闪 + 缩放淡出
+      hyperState.targetSpeed = 22;
+      loader.classList.add("warping");
       document.body.classList.add("booted");
-      setTimeout(() => loader.classList.add("hide"), 100);
+      setTimeout(() => loader.classList.add("hide"), 550);
       setTimeout(() => {
+        cancelAnimationFrame(hyperRAF);
         loader.remove();
         clearInterval(tickTimer);
-      }, 1000);
-      // 首次进入时把开关做个引导：暂不自动播放音乐，由用户点右下角
+      }, 1300);
     };
 
     if (enterBtn) enterBtn.addEventListener("click", enter, { once: true });
@@ -105,7 +225,7 @@
       document.removeEventListener("click", clickAnywhere);
     };
     const clickAnywhere = (ev) => {
-      if (ev.target.closest(".boot-loader")) return; // 让按钮自然走
+      if (ev.target.closest(".boot-loader")) return;
       enter();
       document.removeEventListener("keydown", anyKey);
       document.removeEventListener("click", clickAnywhere);
@@ -114,7 +234,6 @@
     document.addEventListener("click", clickAnywhere);
   }
 
-  // 允许用户按 Esc 快速跳过
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && !document.body.classList.contains("booted")) {
       progress = 100;
@@ -122,7 +241,6 @@
     }
   });
 
-  // kick off
   runStep(0);
 })();
 
