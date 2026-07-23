@@ -658,7 +658,52 @@ body.booted #hero .hero-content > *:nth-child(5) { animation-delay: 0.65s; }
 @media (max-width: 768px) {
   .boot-side { display: none; }
   .boot-corner { display: none; }
-  .boot-footer { gap: 16px; font-size: 8px; bottom: 20px; }
+  .boot-footer {
+    gap: 12px;
+    font-size: 8px;
+    bottom: 16px;
+    flex-wrap: wrap;
+    padding: 0 16px;
+    letter-spacing: 0.15em;
+  }
+  .boot-center {
+    width: 92vw;
+    padding: 20px 12px;
+    gap: 24px;
+  }
+  .boot-holo {
+    padding: 24px 12px;
+  }
+  .boot-logo {
+    font-size: clamp(46px, 15vw, 72px);
+    letter-spacing: 0.1em;
+  }
+  .boot-sub {
+    font-size: 9px;
+    letter-spacing: 0.32em;
+    padding: 5px 10px;
+    max-width: 88vw;
+    word-break: keep-all;
+  }
+  .boot-tagline {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    max-width: 88vw;
+    line-height: 1.4;
+    text-align: center;
+  }
+  .boot-enter-btn {
+    padding: 12px 26px;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+  }
+  .boot-enter-hint {
+    font-size: 8px;
+    letter-spacing: 0.25em;
+  }
+  .boot-loader.warping {
+    animation-duration: 0.5s;
+  }
 }
 
 
