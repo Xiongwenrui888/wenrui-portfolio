@@ -299,11 +299,11 @@
 // 1. 打字机效果
 const typewriterEl = document.getElementById("typewriter");
 const phrases = [
-  "> initializing portfolio...",
-  "> loading creative modules...",
-  "> ready. hello, world.",
-  "> AIGC · MOTION · 3D",
-  "> 让每一帧都有想法。",
+  "> booting content engine...",
+  "> where story meets AI × visual",
+  "> AIGC · STORY · MOTION · IP",
+  "> 用内容驱动品牌，用叙事驱动画面。",
+  "> ready. let's create something.",
 ];
 
 let phraseIndex = 0;
