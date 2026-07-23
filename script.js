@@ -232,7 +232,9 @@ if (bgm && audioBtn && audioLabel) {
 
   function setAudioUI(on) {
     audioBtn.classList.toggle("playing", on);
-    audioLabel.textContent = on ? "AUDIO ON" : "AUDIO OFF";
+    audioLabel.textContent = on ? "SOUND ON" : "SOUND OFF";
+    const hint = audioBtn.querySelector(".audio-hint");
+    if (hint) hint.textContent = on ? "赛博 BGM · 循环中" : "TAP TO PLAY BGM";
   }
 }
 
