@@ -37,7 +37,93 @@ body {
   min-height: 100vh;
 }
 
-/* 全局背景效果 */
+/* ============= AUDIO TOGGLE ============= */
+.audio-toggle {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 200;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px 10px 12px;
+  background: rgba(10, 10, 10, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  color: var(--fg-dim);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 999px;
+}
+
+.audio-toggle:hover {
+  border-color: var(--border-hover);
+  color: var(--accent);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.18);
+}
+
+.audio-toggle.playing {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 24px rgba(0, 240, 255, 0.35);
+}
+
+.audio-bars {
+  display: inline-flex;
+  gap: 2px;
+  align-items: flex-end;
+  height: 12px;
+  width: 16px;
+}
+
+.audio-bars span {
+  display: block;
+  width: 2px;
+  height: 3px;
+  background: currentColor;
+  transition: height 0.2s ease;
+}
+
+.audio-toggle.playing .audio-bars span {
+  animation: audio-bar 1s ease-in-out infinite;
+}
+
+.audio-toggle.playing .audio-bars span:nth-child(1) {
+  animation-delay: 0s;
+}
+.audio-toggle.playing .audio-bars span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.audio-toggle.playing .audio-bars span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.audio-toggle.playing .audio-bars span:nth-child(4) {
+  animation-delay: 0.45s;
+}
+
+@keyframes audio-bar {
+  0%, 100% {
+    height: 2px;
+  }
+  50% {
+    height: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .audio-toggle {
+    right: 16px;
+    bottom: 16px;
+    padding: 8px 12px 8px 10px;
+    font-size: 9px;
+  }
+}
+
+/* ============= 全局背景效果 ============= */
 .scanlines {
   position: fixed;
   inset: 0;

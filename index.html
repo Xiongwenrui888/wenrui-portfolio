@@ -11,6 +11,15 @@
 </head>
 <body>
 
+<!-- 音乐播放器 -->
+<audio id="bgm" src="assets/bgm.mp3" loop preload="none"></audio>
+<button class="audio-toggle" id="audioToggle" type="button" aria-label="切换背景音乐" title="切换背景音乐（默认静音）">
+  <span class="audio-bars" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+  </span>
+  <span class="audio-label" id="audioLabel">AUDIO OFF</span>
+</button>
+
 <!-- 扫描线覆盖层 -->
 <div class="scanlines"></div>
 <div class="noise"></div>

@@ -183,7 +183,60 @@ function showToast(msg) {
   setTimeout(() => toast.classList.remove("show"), 2200);
 }
 
-// 9. 控制台招呼
+// 9. 背景音乐开关
+const bgm = document.getElementById("bgm");
+const audioBtn = document.getElementById("audioToggle");
+const audioLabel = document.getElementById("audioLabel");
+
+if (bgm && audioBtn && audioLabel) {
+  bgm.volume = 0.22;
+
+  const savedPref = localStorage.getItem("bgm-on");
+  if (savedPref === "1") {
+    // 用户之前开过，浏览器策略可能会拦一次，用 promise 处理
+    const kickoff = () => {
+      bgm
+        .play()
+        .then(() => setAudioUI(true))
+        .catch(() => {
+          // 自动播放被拦，等第一次交互再触发
+          const arm = () => {
+            bgm.play().then(() => setAudioUI(true)).catch(() => {});
+            document.removeEventListener("click", arm);
+            document.removeEventListener("keydown", arm);
+          };
+          document.addEventListener("click", arm, { once: true });
+          document.addEventListener("keydown", arm, { once: true });
+        });
+    };
+    kickoff();
+  } else {
+    setAudioUI(false);
+  }
+
+  audioBtn.addEventListener("click", async () => {
+    if (bgm.paused) {
+      try {
+        await bgm.play();
+        setAudioUI(true);
+        localStorage.setItem("bgm-on", "1");
+      } catch (e) {
+        console.warn("BGM play blocked:", e);
+      }
+    } else {
+      bgm.pause();
+      setAudioUI(false);
+      localStorage.setItem("bgm-on", "0");
+    }
+  });
+
+  function setAudioUI(on) {
+    audioBtn.classList.toggle("playing", on);
+    audioLabel.textContent = on ? "AUDIO ON" : "AUDIO OFF";
+  }
+}
+
+// 10. 控制台招呼
 console.log(
   "%c XIONG WENRUI %c AIGC DESIGNER ",
   "background:#00f0ff;color:#0a0a0a;padding:6px 12px;font-weight:bold;",
