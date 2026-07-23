@@ -147,13 +147,49 @@ const style = document.createElement("style");
 style.textContent = `@keyframes hueRotate { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }`;
 document.head.appendChild(style);
 
-// 8. 控制台招呼
+// 8. 微信号点击复制
+const wechatEl = document.getElementById("wechat-copy");
+if (wechatEl) {
+  wechatEl.addEventListener("click", async () => {
+    const text = wechatEl.textContent.trim();
+    try {
+      await navigator.clipboard.writeText(text);
+      showToast(`✅ 微信号 ${text} 已复制`);
+    } catch (e) {
+      // 老浏览器兜底
+      const range = document.createRange();
+      range.selectNode(wechatEl);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      try {
+        document.execCommand("copy");
+        showToast(`✅ 微信号 ${text} 已复制`);
+      } catch {
+        showToast(`❌ 复制失败，请手动选中复制`);
+      }
+    }
+  });
+}
+
+function showToast(msg) {
+  let toast = document.querySelector(".copied-toast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.className = "copied-toast";
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 2200);
+}
+
+// 9. 控制台招呼
 console.log(
   "%c XIONG WENRUI %c AIGC DESIGNER ",
   "background:#00f0ff;color:#0a0a0a;padding:6px 12px;font-weight:bold;",
   "background:#0a0a0a;color:#00f0ff;padding:6px 12px;border:1px solid #00f0ff;"
 );
 console.log(
-  "%c有项目合作？→ 616917632@qq.com",
+  "%c有项目合作？→ 微信 xwr20000531 / 邮箱 616917632@qq.com",
   "color:#888;font-family:monospace;"
 );

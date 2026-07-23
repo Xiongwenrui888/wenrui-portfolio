@@ -853,15 +853,75 @@ body {
   transition: all 0.3s;
   padding-bottom: 4px;
   font-weight: 500;
+  cursor: pointer;
+  display: inline-block;
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
 }
 
 .mail-link:hover {
   text-shadow: 0 0 20px var(--accent-glow);
+  transform: translateY(-2px);
+}
+
+.mail-link:active {
+  transform: translateY(0);
 }
 
 .at {
   opacity: 0.5;
   margin: 0 2px;
+}
+
+.contact-hint {
+  margin-top: 40px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-mute);
+  letter-spacing: 0.15em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.hint-arrow {
+  color: var(--accent);
+  animation: bounce-up 2s infinite;
+}
+
+@keyframes bounce-up {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.copied-toast {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--accent);
+  color: var(--bg);
+  padding: 12px 24px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s;
+  z-index: 9999;
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.copied-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 .contact-grid {
