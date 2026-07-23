@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>XIONG WENRUI // AIGC Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 扫描线覆盖层 -->
+<div class="scanlines"></div>
+<div class="noise"></div>
+<div class="grid-bg"></div>
+
+<!-- 导航栏 -->
+<nav class="nav">
+  <div class="nav-logo">
+    <span class="bracket">[</span>XWR<span class="bracket">]</span>
+    <span class="nav-sub">// v3.0</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#hero" class="active"><span>01</span> HOME</a></li>
+    <li><a href="#works"><span>02</span> WORKS</a></li>
+    <li><a href="#skills"><span>03</span> SKILLS</a></li>
+    <li><a href="#about"><span>04</span> ABOUT</a></li>
+    <li><a href="#contact"><span>05</span> CONTACT</a></li>
+  </ul>
+  <div class="nav-status">
+    <span class="dot"></span>
+    <span id="status-text">ONLINE</span>
+  </div>
+</nav>
+
+<!-- 侧边指示器 -->
+<div class="side-info">
+  <div class="side-item">
+    <span class="label">LOC</span>
+    <span class="value">武汉 · WUH</span>
+  </div>
+  <div class="side-item">
+    <span class="label">EXP</span>
+    <span class="value">03 YRS</span>
+  </div>
+  <div class="side-item">
+    <span class="label">SYS</span>
+    <span class="value" id="time-display">00:00:00</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="hero" class="hero">
+  <div class="hero-corner tl">┌</div>
+  <div class="hero-corner tr">┐</div>
+  <div class="hero-corner bl">└</div>
+  <div class="hero-corner br">┘</div>
+
+  <div class="hero-content">
+    <div class="hero-tag">
+      <span class="pulse-dot"></span>
+      AIGC DESIGNER / MOTION GRAPHIC ARTIST
+    </div>
+    <h1 class="hero-title">
+      <span class="title-line" data-text="XIONG">XIONG</span>
+      <span class="title-line accent" data-text="WEN·RUI">WEN·RUI</span>
+    </h1>
+    <div class="hero-sub">
+      <span id="typewriter"></span><span class="cursor">_</span>
+    </div>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <div class="meta-label">DISCIPLINE</div>
+        <div class="meta-value">3D · MG · AIGC</div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item">
+        <div class="meta-label">STACK</div>
+        <div class="meta-value">C4D · OC · AE · PR</div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item">
+        <div class="meta-label">AI TOOLS</div>
+        <div class="meta-value">COMFYUI · 即梦 · CLAUDE</div>
+      </div>
+    </div>
+    <div class="hero-cta">
+      <a href="#works" class="btn-primary">
+        <span>浏览作品</span>
+        <span class="btn-arrow">→</span>
+      </a>
+      <a href="#contact" class="btn-ghost">
+        <span>联系我</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- WORKS -->
+<section id="works" class="section works">
+  <div class="section-header">
+    <div class="section-num">// 02</div>
+    <h2 class="section-title">SELECTED <span class="accent">WORKS</span></h2>
+    <div class="section-line"></div>
+    <div class="section-desc">
+      精选商业与创意项目 · 覆盖三维产品、MG 动画、AIGC 内容
+    </div>
+  </div>
+
+  <div class="works-grid">
+    <!-- Work 1 -->
+    <div class="work-card" data-index="01">
+      <div class="work-preview">
+        <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1618556450994-a6a128ef0d9d?w=800">
+          <source src="https://cdn.pixabay.com/video/2023/07/13/171294-846827482_large.mp4" type="video/mp4">
+        </video>
+        <div class="work-overlay">
+          <div class="play-btn">▶</div>
+        </div>
+      </div>
+      <div class="work-info">
+        <div class="work-num">01</div>
+        <div class="work-meta">
+          <div class="work-tag">C4D · PRODUCT</div>
+          <h3 class="work-title">美妆产品视觉包装</h3>
+          <p class="work-desc">C4D建模 · OC渲染 · 动画制作 · 后期合成</p>
+        </div>
+        <div class="work-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Work 2 -->
+    <div class="work-card" data-index="02">
+      <div class="work-preview">
+        <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1569529465841-dfecdab7503b?w=800">
+          <source src="https://cdn.pixabay.com/video/2022/08/08/127149-737415075_large.mp4" type="video/mp4">
+        </video>
+        <div class="work-overlay">
+          <div class="play-btn">▶</div>
+        </div>
+      </div>
+      <div class="work-info">
+        <div class="work-num">02</div>
+        <div class="work-meta">
+          <div class="work-tag">COMMERCIAL · SHOOT</div>
+          <h3 class="work-title">格兰菲迪威士忌广告</h3>
+          <p class="work-desc">产品广告拍摄 · 后期包装 · 调色</p>
+        </div>
+        <div class="work-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Work 3 -->
+    <div class="work-card" data-index="03">
+      <div class="work-preview">
+        <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800">
+          <source src="https://cdn.pixabay.com/video/2024/02/28/202665-918175651_large.mp4" type="video/mp4">
+        </video>
+        <div class="work-overlay">
+          <div class="play-btn">▶</div>
+        </div>
+      </div>
+      <div class="work-info">
+        <div class="work-num">03</div>
+        <div class="work-meta">
+          <div class="work-tag">MG · ANIMATION</div>
+          <h3 class="work-title">Smart Life 创意 MG 短片</h3>
+          <p class="work-desc">脚本策划 · 角色设计 · 动画制作</p>
+        </div>
+        <div class="work-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Work 4 -->
+    <div class="work-card" data-index="04">
+      <div class="work-preview">
+        <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800">
+          <source src="https://cdn.pixabay.com/video/2023/10/28/187004-878724570_large.mp4" type="video/mp4">
+        </video>
+        <div class="work-overlay">
+          <div class="play-btn">▶</div>
+        </div>
+      </div>
+      <div class="work-info">
+        <div class="work-num">04</div>
+        <div class="work-meta">
+          <div class="work-tag">AIGC · CONTENT</div>
+          <h3 class="work-title">庄重读书会 · 小红书系列</h3>
+          <p class="work-desc">实拍 + AI 生成 · 内容策划 · 剪辑</p>
+        </div>
+        <div class="work-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Work 5 -->
+    <div class="work-card" data-index="05">
+      <div class="work-preview">
+        <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1526318472351-c75fcf070305?w=800">
+          <source src="https://cdn.pixabay.com/video/2023/12/09/192076-892388890_large.mp4" type="video/mp4">
+        </video>
+        <div class="work-overlay">
+          <div class="play-btn">▶</div>
+        </div>
+      </div>
+      <div class="work-info">
+        <div class="work-num">05</div>
+        <div class="work-meta">
+          <div class="work-tag">TITLE · OPENER</div>
+          <h3 class="work-title">创意片头动画</h3>
+          <p class="work-desc">粒子特效 · 3D 元素 · 音效设计</p>
+        </div>
+        <div class="work-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Work 6 -->
+    <div class="work-card" data-index="06">
+      <div class="work-preview">
+        <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=800">
+          <source src="https://cdn.pixabay.com/video/2023/09/12/181141-864939989_large.mp4" type="video/mp4">
+        </video>
+        <div class="work-overlay">
+          <div class="play-btn">▶</div>
+        </div>
+      </div>
+      <div class="work-info">
+        <div class="work-num">06</div>
+        <div class="work-meta">
+          <div class="work-tag">FILM · REMIX</div>
+          <h3 class="work-title">《Getting Yourself》电影混剪</h3>
+          <p class="work-desc">剪辑 · 声音设计 · 节奏把控</p>
+        </div>
+        <div class="work-arrow">→</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="section skills">
+  <div class="section-header">
+    <div class="section-num">// 03</div>
+    <h2 class="section-title">TECH <span class="accent">STACK</span></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="skills-grid">
+    <div class="skill-block">
+      <div class="skill-num">01</div>
+      <h3>3D & 渲染</h3>
+      <ul class="skill-list">
+        <li><span class="skill-name">Cinema 4D</span><span class="skill-lvl">●●●●●</span></li>
+        <li><span class="skill-name">Octane Render</span><span class="skill-lvl">●●●●●</span></li>
+        <li><span class="skill-name">Redshift</span><span class="skill-lvl">●●●●○</span></li>
+      </ul>
+    </div>
+
+    <div class="skill-block">
+      <div class="skill-num">02</div>
+      <h3>动效 & 合成</h3>
+      <ul class="skill-list">
+        <li><span class="skill-name">After Effects</span><span class="skill-lvl">●●●●●</span></li>
+        <li><span class="skill-name">Premiere Pro</span><span class="skill-lvl">●●●●●</span></li>
+        <li><span class="skill-name">Photoshop</span><span class="skill-lvl">●●●●●</span></li>
+      </ul>
+    </div>
+
+    <div class="skill-block">
+      <div class="skill-num">03</div>
+      <h3>粒子 & 特效</h3>
+      <ul class="skill-list">
+        <li><span class="skill-name">Particular</span><span class="skill-lvl">●●●●○</span></li>
+        <li><span class="skill-name">Form</span><span class="skill-lvl">●●●●○</span></li>
+        <li><span class="skill-name">Plexus 神经元</span><span class="skill-lvl">●●●●○</span></li>
+      </ul>
+    </div>
+
+    <div class="skill-block">
+      <div class="skill-num">04</div>
+      <h3>AIGC 工具</h3>
+      <ul class="skill-list">
+        <li><span class="skill-name">ComfyUI</span><span class="skill-lvl">●●●●●</span></li>
+        <li><span class="skill-name">即梦 AI</span><span class="skill-lvl">●●●●●</span></li>
+        <li><span class="skill-name">Claude / GPT</span><span class="skill-lvl">●●●●●</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section about">
+  <div class="section-header">
+    <div class="section-num">// 04</div>
+    <h2 class="section-title">ABOUT <span class="accent">ME</span></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="about-wrap">
+    <div class="about-left">
+      <div class="about-card">
+        <div class="about-label">PROFILE</div>
+        <div class="about-name">熊文瑞 / XIONG WENRUI</div>
+        <div class="about-role">AIGC 设计师 · 三维动画师</div>
+        <div class="about-lines">
+          <div><span>▸</span> 2000.05 · 男 · 汉</div>
+          <div><span>▸</span> 湖北武汉 · 江岸区</div>
+          <div><span>▸</span> 武汉工程科技学院 · 本科</div>
+          <div><span>▸</span> 3 年商业项目经验</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-right">
+      <p class="about-bio">
+        善于沟通、表达能力强、具备独立汇报方案的能力。有独立的设计想法和思维，对每个项目有自己的理解。对于<span class="hl">空间、材质、灯光及调色</span>有较强的敏锐度和审美。学习能力强、热爱设计工作、了解行业趋势，能承受工作压力。
+      </p>
+
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-date">2026.02 — 2026.07</div>
+          <div class="tl-role">AIGC 内容设计师</div>
+          <div class="tl-company">北京破圈 · 武汉分公司</div>
+          <div class="tl-desc">负责唯品会、猿辅导、平行线、庄重读书会、美莱等品牌小红书内容生产与剪辑，开发 OpenClaw skill 简化视频工作流。</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">2025.12 — 2026.01</div>
+          <div class="tl-role">AIGC 内容设计师</div>
+          <div class="tl-company">武汉匠心力电子商务</div>
+          <div class="tl-desc">负责公司 IP "阿瑶" 系列视频剪辑与后期配音。</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">2023.06 — 2025.12</div>
+          <div class="tl-role">三维设计师</div>
+          <div class="tl-company">上海灵感轴教育科技</div>
+          <div class="tl-desc">独立完成脚本、建模、动画、渲染、剪辑、声音设计、包装、特效合成；负责 AI 图片/视频生成流程。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section contact">
+  <div class="section-header">
+    <div class="section-num">// 05</div>
+    <h2 class="section-title">LET'S <span class="accent">CONNECT</span></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="contact-wrap">
+    <div class="contact-big">
+      有项目想聊？<br>
+      <a href="mailto:616917632@qq.com" class="mail-link">616917632<span class="at">@</span>qq.com</a>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-item">
+        <div class="ci-label">PHONE</div>
+        <div class="ci-value">+86 199 4762 0531</div>
+      </div>
+      <div class="contact-item">
+        <div class="ci-label">EMAIL</div>
+        <div class="ci-value">616917632@qq.com</div>
+      </div>
+      <div class="contact-item">
+        <div class="ci-label">LOCATION</div>
+        <div class="ci-value">武汉 · 江岸区</div>
+      </div>
+      <div class="contact-item">
+        <div class="ci-label">STATUS</div>
+        <div class="ci-value accent">◉ 开放合作</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-line"></div>
+  <div class="footer-inner">
+    <div class="footer-left">
+      © 2026 XIONG WENRUI · ALL RIGHTS RESERVED
+    </div>
+    <div class="footer-right">
+      DESIGNED & BUILT WITH <span class="accent">◆</span> IN WUHAN
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
